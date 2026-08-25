@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Фан-чаты{% endblock %}
+{% block content %}
+<div class="card">
+  {% for room in rooms %}
+  <a href="{% url 'community:chat_detail' room.pk %}" class="chat-row" style="justify-content:space-between;">
+    <span>{{ room.title }}</span>
+    <span style="font-family:var(--mono);font-size:10.5px;color:var(--text-3);">{{ room.participants_count }} участников</span>
+  </a>
+  {% empty %}<p style="color:var(--text-3);">Чатов пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

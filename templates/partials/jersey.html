@@ -1,0 +1,12 @@
+{% comment %}
+Авторская иллюстрация футболки (не фотография товара). Принимает club —
+красится в club.primary_color, если передан, иначе используется акцентный синий.
+{% endcomment %}
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 8 L8 16 L14 26 L20 22 L20 56 L44 56 L44 22 L50 26 L56 16 L44 8
+           C44 8 41 13 32 13 C23 13 20 8 20 8 Z"
+        fill="{{ club.primary_color|default:'#3B7CFF' }}" fill-opacity="0.9"
+        stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M26 13.5 C27.5 16 29.5 17 32 17 C34.5 17 36.5 16 38 13.5"
+        stroke="rgba(0,0,0,0.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

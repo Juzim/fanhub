@@ -1,0 +1,219 @@
+/* FAN-HUB — design tokens, соответствуют референсу (тёмно-синий фон, красный
+   акцент ФК Актобе, синие CTA-кнопки). Клубный акцентный цвет club.primary_color
+   переопределяет красный там, где выбран другой клуб. */
+:root{
+  --bg:#0a0f1e;
+  --bg-elev-1:#0e1526;
+  --bg-card:#131c33;
+  --bg-card-hi:#182238;
+  --border:rgba(255,255,255,.08);
+  --border-soft:rgba(255,255,255,.05);
+  --text-1:#f4f6fb;
+  --text-2:#95a0b8;
+  --text-3:#5d6883;
+  --red:#e8442c;
+  --blue:#3b7cff;
+  --gold:#ffc94d;
+  --green:#2ed573;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text-1);font-family:var(--body);min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+svg{display:block;}
+
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+.sidebar{background:var(--bg-elev-1);border-right:1px solid var(--border);padding:20px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px 22px;}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:14px;}
+.logo .word{font-family:var(--disp);font-weight:700;font-size:16.5px;}
+.logo .word b{color:var(--red);}
+.navgroup{display:flex;flex-direction:column;gap:2px;}
+.navitem{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:9px;font-size:13.5px;color:var(--text-2);font-weight:500;
+  border-left:2px solid transparent;transition:background .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease);}
+.navitem svg{width:16px;height:16px;flex-shrink:0;opacity:.8;transition:opacity .15s var(--ease);}
+.navitem.active{background:var(--bg-card-hi);color:var(--text-1);box-shadow:inset 0 0 0 1px var(--border);border-left-color:var(--blue);}
+.navitem.active svg{opacity:1;color:var(--blue);}
+.navitem:not(.active):hover{color:var(--text-1);background:rgba(255,255,255,.03);}
+.navitem:not(.active):hover svg{opacity:1;}
+.sidebar-club{margin-top:auto;padding:12px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;gap:10px;
+  transition:border-color .15s var(--ease);}
+.sidebar-club:hover{border-color:rgba(255,255,255,.16);}
+.badge{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:12.5px;flex-shrink:0;color:#0a0f1e;}
+.sidebar-club .lbl{font-size:10px;color:var(--text-3);text-transform:uppercase;font-family:var(--mono);}
+.sidebar-club .name{font-size:13px;font-weight:600;}
+
+.main{padding:20px 26px 40px;}
+.topbar{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
+.search{flex:1;max-width:420px;display:flex;align-items:center;gap:9px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text-3);font-size:13px;
+  transition:border-color .15s var(--ease);}
+.search:focus-within,.search:hover{border-color:rgba(255,255,255,.18);}
+.search svg{width:15px;height:15px;color:var(--text-3);flex-shrink:0;}
+.search input::placeholder{color:var(--text-3);}
+.top-actions{display:flex;align-items:center;gap:14px;margin-left:auto;}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  position:relative;transition:background .15s var(--ease),border-color .15s var(--ease);}
+.icon-btn:hover{background:var(--bg-card-hi);border-color:rgba(255,255,255,.16);}
+.icon-btn svg{width:16px;height:16px;color:var(--text-2);}
+.icon-btn .ping{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);}
+.userchip{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:100px;background:var(--bg-card);border:1px solid var(--border);
+  transition:border-color .15s var(--ease),background .15s var(--ease);}
+.userchip:hover{border-color:rgba(255,255,255,.16);background:var(--bg-card-hi);}
+.userchip .av{width:28px;height:28px;border-radius:50%;background:var(--red);}
+.userchip .u-name{font-size:12.5px;font-weight:600;}
+.userchip .u-sub{font-size:10.5px;color:var(--text-3);}
+
+.grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;transition:border-color .15s var(--ease);}
+.card:hover{border-color:rgba(255,255,255,.12);}
+.section-title{font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--text-2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+.cta{display:inline-block;font-size:12.5px;font-weight:600;padding:9px 16px;border-radius:9px;background:var(--blue);color:#fff;border:none;cursor:pointer;
+  transition:background .15s var(--ease),transform .1s var(--ease);}
+.cta:hover{background:#2f6bef;}
+.cta:active{transform:scale(.97);}
+.cta.outline{background:var(--bg-card-hi);border:1px solid var(--border);color:var(--text-1);}
+.cta.outline:hover{background:#202c47;border-color:rgba(255,255,255,.2);}
+.bar{height:8px;border-radius:100px;background:var(--bg-card-hi);overflow:hidden;border:1px solid var(--border-soft);}
+.bar i{display:block;height:100%;background:var(--gold);transition:width .4s var(--ease);}
+
+.rec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.rec-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:block;
+  transition:border-color .15s var(--ease),transform .15s var(--ease);}
+.rec-card:hover{border-color:rgba(255,255,255,.18);transform:translateY(-2px);}
+.rec-thumb{height:96px;background:linear-gradient(135deg,var(--bg-elev-1),var(--bg-card-hi));position:relative;overflow:hidden;}
+.rec-thumb .tag{position:absolute;top:8px;left:8px;font-family:var(--mono);font-size:9.5px;padding:3px 7px;border-radius:100px;background:rgba(0,0,0,.5);border:1px solid var(--border);z-index:1;}
+.rec-body{padding:12px 13px 14px;}
+.rec-body .t{font-size:12.5px;font-weight:600;line-height:1.35;margin-bottom:6px;}
+.rec-body .m{font-size:10.5px;color:var(--text-3);font-family:var(--mono);}
+
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-family:var(--mono);font-size:10px;color:var(--text-3);text-transform:uppercase;padding:0 8px 10px;font-weight:500;}
+td{padding:9px 8px;font-size:12.5px;border-top:1px solid var(--border-soft);}
+tbody tr{transition:background .15s var(--ease);}
+tbody tr:hover td{background:rgba(255,255,255,.025);}
+tr.hl td{background:rgba(59,124,255,.08);}
+tr.hl:hover td{background:rgba(59,124,255,.13);}
+.mini-crest{width:20px;height:20px;border-radius:6px;display:inline-block;vertical-align:middle;}
+
+.list-row,.recent-row,.news-item,.fixture-row,.team-tile,.player-row,.chat-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border-soft);
+  transition:background .15s var(--ease);}
+.list-row:first-child,.recent-row:first-child,.news-item:first-child,.fixture-row:first-child,.team-tile:first-child,.player-row:first-child,.chat-row:first-child{border-top:none;}
+a.list-row:hover,a.news-item:hover,a.team-tile:hover,a.player-row:hover{background:rgba(255,255,255,.025);border-radius:8px;padding-left:8px;padding-right:8px;margin:0 -8px;}
+
+/* ---------- login / register: stadium-lights atmosphere ---------- */
+.auth-shell{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(1100px 620px at 18% -8%, rgba(232,68,44,.16), transparent 60%),
+    radial-gradient(900px 560px at 85% 0%, rgba(59,124,255,.14), transparent 55%),
+    radial-gradient(1400px 700px at 50% 115%, rgba(59,124,255,.08), transparent 60%),
+    var(--bg);
+}
+.auth-shell::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:radial-gradient(circle at 50% 20%, black, transparent 70%);
+}
+.auth-shell::after{
+  content:"";position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:500px;pointer-events:none;
+  background:conic-gradient(from 200deg at 50% 0%, rgba(255,255,255,.10), transparent 25%, transparent 75%, rgba(255,255,255,.10));
+  filter:blur(6px);opacity:.5;
+}
+.formcard{
+  max-width:380px;width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;
+  text-align:center;position:relative;z-index:1;box-shadow:0 40px 90px -30px rgba(0,0,0,.65);
+}
+.formcard .mark{width:38px;height:38px;border-radius:11px;background:var(--red);margin:0 auto 14px;
+  box-shadow:0 0 0 6px rgba(232,68,44,.12);}
+.formcard input,.formcard select{width:100%;background:var(--bg-elev-1);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text-1);margin-bottom:10px;font-size:13px;
+  transition:border-color .15s var(--ease);}
+.formcard input:focus,.formcard select:focus{outline:none;border-color:var(--blue);}
+.formcard .cta{width:100%;margin-top:6px;}
+.errorlist{color:var(--red);font-size:11px;text-align:left;margin-bottom:8px;list-style:none;}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.chip{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:100px;border:1px solid var(--border);color:var(--text-3);
+  transition:background .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease);}
+.chip:hover{border-color:rgba(255,255,255,.2);color:var(--text-1);}
+.chip.on{background:var(--blue);color:#fff;border-color:transparent;}
+.chip.on:hover{background:#2f6bef;}
+
+/* ---------- reusable utility classes (replace repeated inline styles) ---------- */
+.muted{color:var(--text-3);font-family:var(--mono);font-size:11px;}
+.muted-sm{color:var(--text-3);font-family:var(--mono);font-size:10px;}
+.eyebrow-mono{font-family:var(--mono);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;}
+.row-between{display:flex;align-items:center;justify-content:space-between;}
+.stack-gap-8{display:flex;flex-direction:column;gap:8px;}
+.stat-value{font-family:var(--disp);font-weight:700;font-size:26px;}
+.page-title{font-family:var(--disp);font-weight:700;font-size:22px;}
+.title-sm{font-family:var(--disp);font-weight:700;font-size:16px;}
+.avatar-circle{border-radius:50%;background:var(--red);flex-shrink:0;}
+.avatar-sm{width:24px;height:24px;}
+.avatar-md{width:28px;height:28px;}
+.avatar-lg{width:48px;height:48px;}
+.card-max-sm{max-width:420px;}
+.card-max-md{max-width:520px;}
+.card-max-lg{max-width:720px;}
+.stat-mini{display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:var(--text-2);}
+.stat-mini b{color:var(--text-1);font-family:var(--mono);}
+
+/* Иконки-заглушки в превью-блоках без фото (thumb-icon) — вместо пустого
+   градиента показываем крупную полупрозрачную иконку типа контента */
+.rec-thumb,.news-thumb,.vid-thumb{display:flex;align-items:center;justify-content:center;}
+.news-thumb{width:52px;height:40px;border-radius:8px;background:linear-gradient(135deg,var(--bg-elev-1),var(--bg-card-hi));flex-shrink:0;position:relative;overflow:hidden;}
+.thumb-icon{width:28px;height:28px;color:rgba(255,255,255,.55);position:relative;z-index:1;}
+.news-thumb .thumb-icon,.vid-thumb .thumb-icon{width:18px;height:18px;}
+
+/* Оригинальная "стадионная" графика для новостей без фото: свет прожекторов
+   + линии поля в акцентном цвете клуба (--accent). Не фотография, не чужая
+   картинка — авторский CSS-паттерн, окрашиваемый под каждый клуб. */
+.pitch-thumb{
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(160px 90px at 20% -10%, color-mix(in srgb, var(--accent, var(--blue)) 55%, transparent), transparent 70%),
+    radial-gradient(160px 90px at 90% 120%, color-mix(in srgb, var(--accent, var(--blue)) 35%, transparent), transparent 70%),
+    linear-gradient(135deg,var(--bg-elev-1),var(--bg-card-hi));
+}
+.pitch-thumb::after{
+  content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;
+  background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 14px);
+}
+.pitch-thumb .thumb-icon{position:relative;z-index:1;color:rgba(255,255,255,.35);}
+
+/* Иллюстрация футболки для карточек мерча — авторская SVG-графика,
+   не фотография товара, окрашивается в цвет клуба */
+.jersey-thumb{position:relative;background:linear-gradient(135deg,var(--bg-elev-1),var(--bg-card-hi));}
+.jersey-thumb svg{width:56px;height:56px;}
+
+/* Превью видео — реальный официальный YouTube-thumbnail, если известен youtube_id */
+.vid-thumb-img,.rec-thumb-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.rec-thumb{overflow:hidden;}
+
+/* Карточка объяснения рекомендаций — маленький бесплатный AI-модуль
+   (детерминированный NLG поверх данных CF-модели, без внешних LLM/API,
+   см. apps/recommendations/recommender.py::generate_explanation) */
+.ai-explain{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--blue);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;
+}
+.ai-explain--collaborative{border-left-color:var(--blue);}
+.ai-explain--own_history{border-left-color:var(--gold);}
+.ai-explain--cold_start{border-left-color:var(--text-3);}
+.ai-explain-icon{width:20px;height:20px;flex-shrink:0;margin-top:1px;color:var(--blue);}
+.ai-explain--own_history .ai-explain-icon{color:var(--gold);}
+.ai-explain--cold_start .ai-explain-icon{color:var(--text-3);}
+.ai-explain-headline{font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:4px;}
+.ai-explain-detail{font-size:12px;color:var(--text-2);line-height:1.55;}
+
+@media(max-width:1000px){.app{grid-template-columns:1fr;}.sidebar{display:none;}.grid{grid-template-columns:1fr;}.rec-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* Логотипы клубов (официальные PNG из static/img/clubs/) */
+.crest-img{border-radius:8px;object-fit:contain;background:var(--bg-card-hi);padding:2px;border:1px solid var(--border);}
+.league-logo{height:26px;width:auto;object-fit:contain;}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ video.title }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:720px;">
+  {% if video.embed_url %}
+  <div style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;margin-bottom:14px;">
+    <iframe width="100%" height="100%" src="{{ video.embed_url }}" frameborder="0" allowfullscreen></iframe>
+  </div>
+  {% elif video.external_url %}
+  <div class="pitch-thumb" style="--accent:{{ video.club.primary_color|default:'#3B7CFF' }};aspect-ratio:16/9;border-radius:10px;margin-bottom:14px;">
+    <a href="{{ video.external_url }}" target="_blank" rel="noopener" class="cta" style="position:relative;z-index:1;">Смотреть на источнике →</a>
+  </div>
+  {% endif %}
+  <h1 style="font-family:var(--disp);font-size:20px;">{{ video.title }}</h1>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:6px;">{{ video.club.name|default:"КПЛ" }} · {{ video.get_category_display }}</div>
+</div>
+{% endblock %}

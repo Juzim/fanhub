@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Команды и турнирная таблица{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="section-title" style="display:flex;align-items:center;gap:10px;">
+    <img src="{% static 'img/league/kpl-logo.png' %}" class="league-logo" alt="Казахстанская Премьер-лига">
+    Казахстанская Премьер-лига
+  </div>
+  <table>
+    <thead><tr><th></th><th>Команда</th><th>И</th><th>В</th><th>Н</th><th>П</th><th>Мячи</th><th>О</th></tr></thead>
+    <tbody>
+    {% for s in standings %}
+      <tr {% if favorite_club and s.club_id == favorite_club.id %}class="hl"{% endif %}>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="{% url 'clubs:detail' s.club.pk %}" style="display:flex;align-items:center;gap:8px;">{% include "partials/crest.html" with club=s.club size=30 %} {{ s.club.name }}</a></td>
+        <td>{{ s.played }}</td><td>{{ s.wins }}</td><td>{{ s.draws }}</td><td>{{ s.losses }}</td>
+        <td>{{ s.goals_for }}:{{ s.goals_against }}</td><td><b>{{ s.points }}</b></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Видеообзоры{% endblock %}
+{% block content %}
+<div class="chip-row">
+  <a href="{% url 'videos:list' %}" class="chip on">Все</a>
+  {% for key, label in categories %}<a href="?category={{ key }}" class="chip">{{ label }}</a>{% endfor %}
+</div>
+<div class="rec-grid" style="grid-template-columns:repeat(3,1fr);">
+  {% for v in videos %}
+  <a href="{% url 'videos:detail' v.pk %}" class="rec-card">
+    <div class="rec-thumb">
+      {% if v.thumbnail_url %}<img src="{{ v.thumbnail_url }}" alt="" class="rec-thumb-img">{% else %}{% include "partials/thumb_icon.html" with kind="video" %}{% endif %}
+      <span class="tag">{{ v.get_category_display }}</span>
+    </div>
+    <div class="rec-body"><div class="t">{{ v.title }}</div><div class="m">{{ v.club.name|default:"КПЛ" }}</div></div>
+  </a>
+  {% empty %}<p style="color:var(--text-3);">Видео пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

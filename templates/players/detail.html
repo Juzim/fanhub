@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ player.full_name }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:420px;">
+  <h1 style="font-family:var(--disp);font-size:20px;">{{ player.full_name }}</h1>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:6px;">{{ player.club.name }} · {{ player.get_position_display }}</div>
+  <div style="margin-top:16px;display:flex;gap:20px;font-size:12.5px;color:var(--text-2);">
+    <div>Матчи<br><b style="color:var(--text-1);font-family:var(--mono);">{{ player.matches_played }}</b></div>
+    <div>Голы<br><b style="color:var(--text-1);font-family:var(--mono);">{{ player.goals }}</b></div>
+    <div>Ассисты<br><b style="color:var(--text-1);font-family:var(--mono);">{{ player.assists }}</b></div>
+    <div>Рейтинг<br><b style="color:var(--gold);font-family:var(--mono);">{{ player.rating }}</b></div>
+  </div>
+</div>
+{% endblock %}

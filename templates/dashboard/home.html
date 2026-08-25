@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<div class="grid">
+  <div class="card">
+    {% if favorite_club %}{% include "partials/crest.html" with club=favorite_club size=54 %}{% endif %}
+    <h3 style="font-family:var(--disp);font-size:20px;margin-top:14px;">{{ favorite_club.name|default:"Клуб не выбран" }}</h3>
+    <div style="color:var(--text-2);font-size:12.5px;margin-top:3px;">{{ favorite_club.slogan }}</div>
+    <a href="{% url 'accounts:profile' %}" class="cta outline" style="margin-top:16px;">Изменить клуб →</a>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Следующий матч</div>
+    {% if next_match %}
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 6px;">
+        {% include "partials/crest.html" with club=next_match.home_club size=40 %}
+        <span style="color:var(--text-3);font-family:var(--mono);font-size:12px;">VS</span>
+        {% include "partials/crest.html" with club=next_match.away_club size=40 %}
+      </div>
+      <div style="text-align:center;font-size:12.5px;color:var(--text-2);margin-bottom:4px;">{{ next_match.home_club.name }} — {{ next_match.away_club.name }}</div>
+      <div style="text-align:center;font-family:var(--mono);font-size:11px;color:var(--text-3);margin-bottom:14px;">
+        {{ next_match.kickoff_at|date:"d M · H:i" }} · {{ next_match.tournament }}
+      </div>
+      <a href="{% url 'matches:list' %}" class="cta" style="display:block;text-align:center;">Подробнее о матче</a>
+    {% else %}
+      <p style="color:var(--text-3);font-size:12.5px;">Нет запланированных матчей.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="section-title">Уровень болельщика</div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+      <span style="font-family:var(--disp);font-weight:700;font-size:16px;">{{ user.display_title }}</span>
+      <span style="font-family:var(--mono);color:var(--blue);font-size:12px;">LVL {{ user.level }}</span>
+    </div>
+    <div class="bar"><i style="width:{% widthratio xp_in_level xp_needed 100 %}%"></i></div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:8px;">{{ xp_in_level }} / {{ xp_needed }} XP</div>
+  </div>
+</div>
+
+<div style="margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+    <h2 style="font-family:var(--disp);font-weight:700;font-size:19px;">Рекомендации для вас</h2>
+    <span style="font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;background:var(--blue);padding:3px 9px;border-radius:100px;">AI</span>
+  </div>
+  {% include "partials/ai_explain.html" %}
+  <div class="rec-grid">
+    {% for article in recs.articles %}
+    <a href="{% url 'news:detail' article.pk %}" class="rec-card">
+      <div class="rec-thumb pitch-thumb" style="--accent:{{ article.club.primary_color|default:'#3B7CFF' }}">{% include "partials/thumb_icon.html" with kind="news" %}<span class="tag">Новость</span></div>
+      <div class="rec-body"><div class="t">{{ article.title }}</div><div class="m">{{ article.club.name }} · {{ article.published_at|timesince }} назад</div></div>
+    </a>
+    {% endfor %}
+    {% for video in recs.videos %}
+    <a href="{% url 'videos:detail' video.pk %}" class="rec-card">
+      <div class="rec-thumb">
+        {% if video.thumbnail_url %}<img src="{{ video.thumbnail_url }}" alt="" class="rec-thumb-img">{% else %}{% include "partials/thumb_icon.html" with kind="video" %}{% endif %}
+        <span class="tag">Видео</span>
+      </div>
+      <div class="rec-body"><div class="t">{{ video.title }}</div><div class="m">YouTube</div></div>
+    </a>
+    {% endfor %}
+    {% for match in recs.matches %}
+    <div class="rec-card">
+      <div class="rec-thumb pitch-thumb" style="--accent:{{ match.home_club.primary_color|default:'#3B7CFF' }}">{% include "partials/thumb_icon.html" with kind="match" %}<span class="tag">Матч</span></div>
+      <div class="rec-body"><div class="t">{{ match.home_club.name }} — {{ match.away_club.name }}</div><div class="m">{{ match.kickoff_at|date:"d M, H:i" }}</div></div>
+    </div>
+    {% endfor %}
+    {% for product in recs.products %}
+    <div class="rec-card">
+      <div class="rec-thumb jersey-thumb">{% include "partials/jersey.html" with club=product.club %}<span class="tag">Мерч</span></div>
+      <div class="rec-body"><div class="t">{{ product.name }}</div><div class="m">от {{ product.price }} ₸</div></div>
+    </div>
+    {% endfor %}
+    {% if not recs.articles and not recs.videos %}
+      <p style="color:var(--text-3);font-size:12.5px;">Пока недостаточно данных — почитайте новости и посмотрите видео, чтобы система начала подбирать рекомендации.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px;">
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div class="card">
+      <div class="section-title">Казахстанская Премьер-лига</div>
+      <table>
+        <thead><tr><th></th><th>Команда</th><th>И</th><th>В</th><th>Н</th><th>П</th><th>Мячи</th><th>О</th></tr></thead>
+        <tbody>
+        {% for s in standings %}
+          <tr {% if favorite_club and s.club_id == favorite_club.id %}class="hl"{% endif %}>
+            <td>{{ forloop.counter }}</td>
+            <td style="display:flex;align-items:center;gap:8px;">{% include "partials/crest.html" with club=s.club size=30 %} {{ s.club.name }}</td>
+            <td>{{ s.played }}</td><td>{{ s.wins }}</td><td>{{ s.draws }}</td><td>{{ s.losses }}</td>
+            <td>{{ s.goals_for }}:{{ s.goals_against }}</td><td><b>{{ s.points }}</b></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="section-title">Последние матчи</div>
+      {% for m in recent_matches %}
+      <div class="recent-row" style="justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:8px;">
+          {% include "partials/crest.html" with club=m.home_club size=28 %} {{ m.home_club.short_name }}
+          <b>{{ m.score_display }}</b>
+          {{ m.away_club.short_name }} {% include "partials/crest.html" with club=m.away_club size=28 %}
+        </span>
+        <span style="font-family:var(--mono);font-size:10.5px;color:var(--text-3);">{{ m.kickoff_at|date:"d M" }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">Активные болельщики</div>
+    {% for fan in top_fans %}
+    <div class="list-row" style="justify-content:space-between;">
+      <span>{{ forloop.counter }}. {{ fan.username }}</span>
+      <span style="font-family:var(--mono);color:var(--gold);font-size:11px;">{{ fan.xp }} XP</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

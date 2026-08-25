@@ -1,0 +1,5 @@
+{% load static %}
+{% if club.crest %}<img src="{{ club.crest.url }}" alt="{{ club.name }}" class="crest-img" style="width:{{ size|default:'32' }}px;height:{{ size|default:'32' }}px;">
+{% elif club.crest_static %}<img src="{% static club.crest_static %}" alt="{{ club.name }}" class="crest-img" style="width:{{ size|default:'32' }}px;height:{{ size|default:'32' }}px;">
+{% else %}<div class="badge" style="background:{{ club.primary_color }};width:{{ size|default:'32' }}px;height:{{ size|default:'32' }}px;font-size:11px;">{{ club.short_name|default:club.name|slice:":2"|upper }}</div>
+{% endif %}

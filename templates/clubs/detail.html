@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ club.name }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px;">
+  {% include "partials/crest.html" with club=club size=64 %}
+  <h1 style="font-family:var(--disp);font-size:22px;margin-top:14px;">{{ club.name }}</h1>
+  <p style="color:var(--text-2);font-size:12.5px;margin-top:4px;">{{ club.slogan }}</p>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:12px;">{{ club.city }} · Основан в {{ club.founded_year }}</div>
+  {% if club.standing %}
+  <div style="margin-top:16px;font-size:12.5px;color:var(--text-2);">
+    {{ club.standing.played }} игр · {{ club.standing.wins }}В {{ club.standing.draws }}Н {{ club.standing.losses }}П · <b style="color:var(--text-1);">{{ club.standing.points }} очков</b>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

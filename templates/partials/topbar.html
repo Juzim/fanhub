@@ -1,0 +1,23 @@
+<div class="topbar">
+  <form class="search" method="get" action="{% url 'core:search' %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" name="q" placeholder="Поиск матчей, новостей, игроков..." value="{{ request.GET.q }}"
+           style="background:transparent;border:none;outline:none;color:var(--text-1);font-size:13px;flex:1;font-family:var(--body);">
+  </form>
+  <div class="top-actions">
+    <button class="icon-btn" type="button" aria-label="Уведомления">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+      <span class="icon-btn-dot"></span>
+    </button>
+    <button class="icon-btn" type="button" aria-label="Сообщения">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </button>
+    <a href="{% url 'accounts:profile' %}" class="userchip">
+      <div class="av"></div>
+      <div>
+        <div class="u-name">{{ user.username }}</div>
+        <div class="u-sub">{{ user.favorite_club.name|default:"Клуб не выбран" }}</div>
+      </div>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Поиск{% endblock %}
+{% block content %}
+<div class="card" style="margin-bottom:16px;">
+  <form method="get" action="{% url 'core:search' %}" class="search" style="max-width:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" name="q" value="{{ query }}" placeholder="Поиск матчей, новостей, игроков..." autofocus
+           style="background:transparent;border:none;outline:none;color:var(--text-1);font-size:13px;flex:1;font-family:var(--body);">
+  </form>
+</div>
+
+{% if query %}
+  <p class="muted" style="margin-bottom:16px;">{{ total }} результат{{ total|pluralize:",а,ов" }} по запросу «{{ query }}»</p>
+
+  {% if results.clubs %}
+  <div class="card" style="margin-bottom:16px;">
+    <div class="section-title">Клубы</div>
+    {% for c in results.clubs %}
+    <a href="{% url 'clubs:detail' c.pk %}" class="team-tile" style="justify-content:space-between;">
+      <span style="display:flex;align-items:center;gap:10px;">{% include "partials/crest.html" with club=c size=30 %} {{ c.name }}</span>
+      <span class="muted-sm">{{ c.city }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if results.matches %}
+  <div class="card" style="margin-bottom:16px;">
+    <div class="section-title">Матчи</div>
+    {% for m in results.matches %}
+    <div class="fixture-row" style="justify-content:space-between;">
+      <span style="display:flex;align-items:center;gap:8px;">
+        {% include "partials/crest.html" with club=m.home_club size=24 %} {{ m.home_club.name }}
+        {% if m.score_display %}<b>{{ m.score_display }}</b>{% else %}<span class="muted-sm">vs</span>{% endif %}
+        {{ m.away_club.name }} {% include "partials/crest.html" with club=m.away_club size=24 %}
+      </span>
+      <span class="muted-sm">{{ m.kickoff_at|date:"d.m.Y H:i" }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if results.articles %}
+  <div class="card" style="margin-bottom:16px;">
+    <div class="section-title">Новости</div>
+    {% for a in results.articles %}
+    <a href="{% url 'news:detail' a.pk %}" class="news-item">
+      <div class="news-thumb pitch-thumb" style="--accent:{{ a.club.primary_color|default:'#3B7CFF' }}">{% include "partials/thumb_icon.html" with kind="news" %}</div>
+      <div>
+        <div style="font-size:12.5px;font-weight:600;">{{ a.title }}</div>
+        <div class="muted-sm" style="margin-top:3px;">{{ a.club.name|default:"КПЛ" }} · {{ a.published_at|timesince }} назад</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if results.videos %}
+  <div class="card" style="margin-bottom:16px;">
+    <div class="section-title">Видео</div>
+    {% for v in results.videos %}
+    <a href="{% url 'videos:detail' v.pk %}" class="news-item">
+      <div class="news-thumb">{% if v.thumbnail_url %}<img src="{{ v.thumbnail_url }}" alt="" class="rec-thumb-img">{% else %}{% include "partials/thumb_icon.html" with kind="video" %}{% endif %}</div>
+      <div>
+        <div style="font-size:12.5px;font-weight:600;">{{ v.title }}</div>
+        <div class="muted-sm" style="margin-top:3px;">{{ v.club.name|default:"КПЛ" }} · {{ v.get_category_display }}</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if results.players %}
+  <div class="card" style="margin-bottom:16px;">
+    <div class="section-title">Игроки</div>
+    {% for p in results.players %}
+    <a href="{% url 'players:detail' p.pk %}" class="player-row" style="justify-content:space-between;">
+      <span>{{ p.full_name }} <span class="muted-sm">{{ p.club.short_name }} · {{ p.get_position_display }}</span></span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if total == 0 %}
+  <div class="card">
+    <p class="muted">Ничего не найдено по запросу «{{ query }}». Попробуйте другое название клуба, игрока или команды.</p>
+  </div>
+  {% endif %}
+{% else %}
+  <div class="card">
+    <p class="muted">Введите запрос выше — поиск охватывает новости, видео, матчи, клубы и игроков.</p>
+  </div>
+{% endif %}
+{% endblock %}

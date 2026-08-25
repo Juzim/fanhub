@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Аналитика{% endblock %}
+{% block content %}
+{% include "partials/ai_explain.html" %}
+<div class="card" style="max-width:520px;margin-bottom:16px;">
+  <div class="section-title">Интересы пользователя</div>
+  {% for row in interest_breakdown %}
+  <div class="list-row" style="justify-content:space-between;">
+    <span>{{ row.club }}</span>
+    <b style="font-family:var(--mono);">{{ row.percent }}%</b>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Пока нет данных — почитайте новости или посмотрите видео.</p>{% endfor %}
+</div>
+<div class="grid" style="grid-template-columns:repeat(3,1fr);">
+  <div class="card"><div class="section-title">Просмотрено видео</div><div style="font-family:var(--disp);font-size:26px;">{{ videos_watched }}</div></div>
+  <div class="card"><div class="section-title">Прочитано новостей</div><div style="font-family:var(--disp);font-size:26px;">{{ news_read }}</div></div>
+  <div class="card"><div class="section-title">Всего взаимодействий</div><div style="font-family:var(--disp);font-size:26px;">{{ total_interactions }}</div></div>
+</div>
+{% endblock %}

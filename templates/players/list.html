@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Игроки{% endblock %}
+{% block content %}
+<div class="card">
+  {% for p in players %}
+  <a href="{% url 'players:detail' p.pk %}" class="player-row" style="justify-content:space-between;">
+    <span>{{ p.full_name }} <span style="font-family:var(--mono);font-size:10px;color:var(--text-3);">{{ p.club.short_name }} · {{ p.get_position_display }}</span></span>
+    <span style="font-family:var(--mono);color:var(--gold);">{{ p.goals }} г / {{ p.assists }} пас</span>
+  </a>
+  {% empty %}<p style="color:var(--text-3);">Игроков пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

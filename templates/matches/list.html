@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Матчи{% endblock %}
+{% block content %}
+<div class="card" style="margin-bottom:16px;">
+  <div class="section-title">Предстоящие матчи</div>
+  {% for m in upcoming %}
+  <div class="fixture-row" style="justify-content:space-between;">
+    <span style="display:flex;align-items:center;gap:8px;">
+      {% include "partials/crest.html" with club=m.home_club size=28 %} {{ m.home_club.name }} — {{ m.away_club.name }} {% include "partials/crest.html" with club=m.away_club size=28 %}
+    </span>
+    <span style="font-family:var(--mono);color:var(--blue);">{{ m.kickoff_at|date:"d.m H:i" }}</span>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Нет запланированных матчей.</p>{% endfor %}
+</div>
+<div class="card">
+  <div class="section-title">Завершённые матчи</div>
+  {% for m in finished %}
+  <div class="fixture-row" style="justify-content:space-between;">
+    <span style="display:flex;align-items:center;gap:8px;">
+      {% include "partials/crest.html" with club=m.home_club size=28 %} {{ m.home_club.name }} {{ m.score_display }} {{ m.away_club.name }} {% include "partials/crest.html" with club=m.away_club size=28 %}
+    </span>
+    <span style="font-family:var(--mono);color:var(--text-3);">{{ m.kickoff_at|date:"d.m.Y" }}</span>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Матчей пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

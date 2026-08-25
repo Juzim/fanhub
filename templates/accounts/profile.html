@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<div class="card" style="max-width:480px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-soft);">
+    <div class="av" style="width:48px;height:48px;border-radius:50%;background:var(--red);"></div>
+    <div>
+      <div style="font-family:var(--disp);font-weight:700;">{{ user.username }}</div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:var(--text-3);">{{ user.display_title }} · LVL {{ user.level }}</div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">Любимый клуб: <b style="color:var(--text-1);">{{ user.favorite_club.name|default:"не выбран" }}</b></div>
+  <div style="font-size:12px;color:var(--text-2);margin-bottom:16px;">XP: <b style="color:var(--text-1);">{{ user.xp }}</b> ({{ xp_in_level }} / {{ xp_needed }} до след. уровня)</div>
+
+  <div class="section-title">Изменить любимый клуб</div>
+  <form method="post" action="{% url 'accounts:change_club' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'accounts:profile' %}">
+    <select name="club_id" style="width:100%;background:var(--bg-elev-1);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text-1);margin-bottom:10px;">
+      {% for club in clubs %}
+        <option value="{{ club.id }}" {% if user.favorite_club_id == club.id %}selected{% endif %}>{{ club.name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="cta" style="width:100%;">Сохранить</button>
+  </form>
+</div>
+{% endblock %}

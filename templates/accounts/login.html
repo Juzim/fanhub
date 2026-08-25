@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block guest_content %}
+<div class="auth-shell">
+  <div class="formcard">
+    <div class="mark"></div>
+    <h3 class="title-sm">FAN-HUB</h3>
+    <p class="muted" style="margin-bottom:18px;">Всё о Казахстанской Премьер-лиге в одном месте</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <input type="text" name="username" placeholder="Email / Username" required autofocus>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="cta">Войти</button>
+    </form>
+    <a href="{% url 'accounts:register' %}" class="cta outline" style="margin-top:10px;display:block;">Зарегистрироваться</a>
+  </div>
+</div>
+{% endblock %}

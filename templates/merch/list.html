@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Мерч{% endblock %}
+{% block content %}
+<div class="rec-grid" style="grid-template-columns:repeat(4,1fr);">
+  {% for p in products %}
+  <div class="rec-card">
+    <div class="rec-thumb jersey-thumb">{% include "partials/jersey.html" with club=p.club %}<span class="tag">{{ p.club.short_name }}</span></div>
+    <div class="rec-body"><div class="t">{{ p.name }}</div><div class="m">от {{ p.price }} ₸</div></div>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Товаров пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

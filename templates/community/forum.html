@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Форум{% endblock %}
+{% block content %}
+<div class="card">
+  {% for t in threads %}
+  <div class="list-row" style="justify-content:space-between;">
+    <span>{{ t.title }}</span>
+    <span style="font-family:var(--mono);font-size:10.5px;color:var(--text-3);">{{ t.author.username }} · {{ t.created_at|timesince }} назад</span>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Тем пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ room.title }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px;">
+  <div class="section-title">{{ room.title }}</div>
+  {% for m in messages %}
+  <div class="chat-row">
+    <div class="av" style="width:24px;height:24px;border-radius:50%;background:var(--red);"></div>
+    <div><div style="font-size:10.5px;font-weight:600;">{{ m.author.username }}</div><div style="font-size:11px;color:var(--text-2);">{{ m.text }}</div></div>
+  </div>
+  {% empty %}<p style="color:var(--text-3);">Пока нет сообщений — начните обсуждение первым.</p>{% endfor %}
+</div>
+{% endblock %}
