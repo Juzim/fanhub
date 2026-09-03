@@ -1,45 +1,45 @@
-{% load static %}
+{% load static i18n %}
 <aside class="sidebar">
   <div class="logo"><div class="mark">F</div><div class="word">FAN<b>-HUB</b></div></div>
   <nav class="navgroup">
     <a class="navitem {% if request.resolver_match.namespace == 'core' and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'core:dashboard' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/></svg>Главная
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/></svg>{% trans "Главная" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'news' %}active{% endif %}" href="{% url 'news:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>Новости
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>{% trans "Новости" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'matches' %}active{% endif %}" href="{% url 'matches:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>Матчи
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>{% trans "Матчи" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'clubs' %}active{% endif %}" href="{% url 'clubs:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13M4 19h16M4 19l4-4M20 19l-4-4"/></svg>Таблица / Команды
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13M4 19h16M4 19l4-4M20 19l-4-4"/></svg>{% trans "Таблица / Команды" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'players' %}active{% endif %}" href="{% url 'players:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 20a7 7 0 0114 0M16 8a3 3 0 010 6M17 14a6 6 0 015 6"/></svg>Игроки
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 20a7 7 0 0114 0M16 8a3 3 0 010 6M17 14a6 6 0 015 6"/></svg>{% trans "Игроки" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'videos' %}active{% endif %}" href="{% url 'videos:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Видео
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>{% trans "Видео" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'community' and request.resolver_match.url_name == 'chat_list' %}active{% endif %}" href="{% url 'community:chat_list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-9 8.4A8.5 8.5 0 013 11.5 8.5 8.5 0 0111.5 3a8.4 8.4 0 018.4 8.5z"/></svg>Фан-чаты
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-9 8.4A8.5 8.5 0 013 11.5 8.5 8.5 0 0111.5 3a8.4 8.4 0 018.4 8.5z"/></svg>{% trans "Фан-чаты" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'community' and request.resolver_match.url_name == 'forum_list' %}active{% endif %}" href="{% url 'community:forum_list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 13h6"/></svg>Форум
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 13h6"/></svg>{% trans "Форум" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'merch' %}active{% endif %}" href="{% url 'merch:list' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6-6 6 6M6 9v11a1 1 0 001 1h10a1 1 0 001-1V9"/></svg>Мерч
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6-6 6 6M6 9v11a1 1 0 001 1h10a1 1 0 001-1V9"/></svg>{% trans "Мерч" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'core' and request.resolver_match.url_name == 'analytics' %}active{% endif %}" href="{% url 'core:analytics' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>Аналитика
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>{% trans "Аналитика" %}
     </a>
     <a class="navitem {% if request.resolver_match.namespace == 'accounts' and request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Профиль
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>{% trans "Профиль" %}
     </a>
   </nav>
   {% if favorite_club %}
   <div class="sidebar-club">
     {% include "partials/crest.html" with club=favorite_club size=38 %}
-    <div><div class="lbl">Любимый клуб</div><div class="name">{{ favorite_club.name }}</div></div>
+    <div><div class="lbl">{% trans "Любимый клуб" %}</div><div class="name">{{ favorite_club.name }}</div></div>
   </div>
   {% endif %}
 </aside>

@@ -82,3 +82,16 @@ def search(request):
 
     total = sum(len(v) for v in results.values())
     return render(request, "core/search.html", {"query": query, "results": results, "total": total})
+
+
+@login_required
+def notifications(request):
+    """Список уведомлений. При открытии всё непрочитанное помечается
+    прочитанным — так же ведут себя GitHub/Twitter и большинство приложений,
+    проще и понятнее, чем ручные чекбоксы "отметить как прочитанное"."""
+    items = list(request.user.notifications.all()[:40])
+    unread_ids = [n.id for n in items if not n.is_read]
+    if unread_ids:
+        from .models import Notification
+        Notification.objects.filter(id__in=unread_ids).update(is_read=True)
+    return render(request, "core/notifications.html", {"notifications": items})

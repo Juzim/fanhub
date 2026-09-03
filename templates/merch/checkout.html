@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Оформление заказа{% endblock %}
+{% block content %}
+<div class="card" style="max-width:480px;">
+  <h1 style="font-family:var(--disp);font-size:20px;margin-bottom:6px;">Оформление заказа</h1>
+  <p class="muted" style="margin-bottom:18px;">
+    Онлайн-оплата пока не подключена — после отправки заявки с вами свяжется менеджер клуба для подтверждения и оплаты при получении.
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <label class="form-label">Имя</label>
+    <input type="text" name="full_name" value="{{ user.username }}" required class="form-input">
+    <label class="form-label">Телефон</label>
+    <input type="tel" name="phone" placeholder="+7 700 000 00 00" required class="form-input">
+    <label class="form-label">Адрес доставки</label>
+    <input type="text" name="address" placeholder="Город, улица, дом" required class="form-input">
+
+    <div class="card" style="background:var(--bg-elev-2);margin:16px 0;padding:14px;">
+      <div class="muted-sm" style="margin-bottom:4px;">К оплате при получении</div>
+      <div style="font-family:var(--disp);font-size:19px;font-weight:700;">{{ total }} ₸</div>
+    </div>
+
+    <button type="submit" class="cta" style="width:100%;">Подтвердить заказ (без онлайн-оплаты)</button>
+  </form>
+</div>
+{% endblock %}

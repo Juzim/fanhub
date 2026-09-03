@@ -59,6 +59,11 @@ svg{display:block;}
 .icon-btn:hover{background:var(--bg-card-hi);border-color:rgba(255,255,255,.16);}
 .icon-btn svg{width:16px;height:16px;color:var(--text-2);}
 .icon-btn .ping{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);}
+.icon-btn-badge{
+  position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;border-radius:100px;
+  background:var(--red);color:#fff;font-family:var(--mono);font-size:9.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;line-height:1;border:2px solid var(--bg-elev-1);
+}
 .userchip{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:100px;background:var(--bg-card);border:1px solid var(--border);
   transition:border-color .15s var(--ease),background .15s var(--ease);}
 .userchip:hover{border-color:rgba(255,255,255,.16);background:var(--bg-card-hi);}
@@ -211,6 +216,71 @@ a.list-row:hover,a.news-item:hover,a.team-tile:hover,a.player-row:hover{backgrou
 .ai-explain--cold_start .ai-explain-icon{color:var(--text-3);}
 .ai-explain-headline{font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:4px;}
 .ai-explain-detail{font-size:12px;color:var(--text-2);line-height:1.55;}
+
+/* ---------- Магазин мерча (фото товара, корзина, оформление заказа) ---------- */
+.product-detail-grid{display:grid;grid-template-columns:280px 1fr;}
+.product-photo-frame{
+  background:var(--bg-card-hi);display:flex;align-items:center;justify-content:center;padding:16px;min-height:280px;
+}
+.product-photo{width:100%;height:100%;object-fit:contain;border-radius:8px;max-height:320px;}
+.product-thumb{padding:0;}
+.product-thumb .product-photo{width:100%;height:96px;object-fit:cover;border-radius:0;}
+
+.size-picker{display:flex;gap:8px;flex-wrap:wrap;}
+.size-option{position:relative;}
+.size-option input{position:absolute;opacity:0;pointer-events:none;}
+.size-option span{
+  display:flex;align-items:center;justify-content:center;width:40px;height:36px;border-radius:8px;
+  background:var(--bg-elev-1);border:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text-2);
+  cursor:pointer;transition:border-color .15s var(--ease),background .15s var(--ease),color .15s var(--ease);
+}
+.size-option input:checked + span{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+.size-option:hover span{border-color:rgba(255,255,255,.22);}
+
+.qty-input{
+  width:80px;background:var(--bg-elev-1);border:1px solid var(--border);border-radius:8px;
+  padding:9px 12px;color:var(--text-1);font-size:13px;font-family:var(--mono);
+}
+
+.cart-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--border-soft);}
+.cart-row:first-child{border-top:none;}
+.cart-row-photo{width:52px;height:52px;border-radius:8px;overflow:hidden;background:var(--bg-card-hi);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.cart-row-photo img{width:100%;height:100%;object-fit:contain;}
+.cart-row-info{flex:1;}
+
+.form-label{display:block;font-family:var(--mono);font-size:10.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.form-input{
+  width:100%;background:var(--bg-elev-1);border:1px solid var(--border);border-radius:8px;
+  padding:10px 12px;color:var(--text-1);margin-bottom:14px;font-size:13px;font-family:var(--body);
+}
+.form-input:focus{outline:none;border-color:var(--blue);}
+
+@media(max-width:640px){.product-detail-grid{grid-template-columns:1fr;}}
+
+/* Переключатель языка RU / ҚАЗ в topbar */
+.lang-switch{display:flex;gap:2px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:3px;}
+.lang-btn{
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-3);background:transparent;border:none;
+  padding:6px 10px;border-radius:7px;cursor:pointer;transition:background .15s var(--ease),color .15s var(--ease);
+}
+.lang-btn:hover{color:var(--text-2);}
+.lang-btn.active{background:var(--blue);color:#fff;}
+
+/* ---------- Уведомления ---------- */
+.notif-row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--border-soft);}
+.notif-row:first-child{border-top:none;}
+.notif-row:hover{background:rgba(255,255,255,.02);}
+.notif-icon{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-elev-2);color:var(--blue);
+}
+.notif-icon svg{width:16px;height:16px;}
+.notif-icon--level_up{color:var(--gold);}
+.notif-icon--order{color:var(--green);}
+.notif-icon--match_result{color:var(--red);}
+.notif-body{flex:1;}
+.notif-title{font-size:12.5px;font-weight:600;}
+.notif-text{font-size:12px;color:var(--text-2);margin-top:3px;line-height:1.5;}
 
 @media(max-width:1000px){.app{grid-template-columns:1fr;}.sidebar{display:none;}.grid{grid-template-columns:1fr;}.rec-grid{grid-template-columns:repeat(2,1fr);}}
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:760px;padding:0;overflow:hidden;">
+  <div class="product-detail-grid">
+    <div class="product-photo-frame">
+      {% include "partials/product_photo.html" with product=product %}
+    </div>
+    <div style="padding:22px;">
+      <div style="display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;color:var(--text-3);margin-bottom:10px;">
+        {% include "partials/crest.html" with club=product.club size=18 %} {{ product.club.name }}
+      </div>
+      <h1 style="font-family:var(--disp);font-size:22px;margin-bottom:8px;">{{ product.name }}</h1>
+      <div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--text-1);margin-bottom:16px;">{{ product.price }} ₸</div>
+      {% if product.description %}<p style="color:var(--text-2);font-size:13px;line-height:1.6;margin-bottom:18px;">{{ product.description }}</p>{% endif %}
+
+      {% if not product.in_stock %}
+        <p style="color:var(--red);font-size:13px;">Сейчас нет в наличии.</p>
+      {% elif user.is_authenticated %}
+      <form method="post" action="{% url 'merch:cart_add' product.pk %}">
+        {% csrf_token %}
+        <div class="section-title" style="margin-bottom:8px;">Размер</div>
+        <div class="size-picker">
+          {% for s in sizes %}
+          <label class="size-option">
+            <input type="radio" name="size" value="{{ s }}" {% if forloop.counter0 == 2 %}checked{% endif %}>
+            <span>{{ s }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        <div class="section-title" style="margin:16px 0 8px;">Количество</div>
+        <input type="number" name="quantity" value="1" min="1" max="10" class="qty-input">
+        <button type="submit" class="cta" style="width:100%;margin-top:18px;">Добавить в корзину</button>
+      </form>
+      {% else %}
+      <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="cta" style="width:100%;display:block;text-align:center;">Войдите, чтобы купить</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

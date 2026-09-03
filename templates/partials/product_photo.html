@@ -1,0 +1,8 @@
+{% load static %}
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-photo">
+{% elif product.image_static %}
+<img src="{% static product.image_static %}" alt="{{ product.name }}" class="product-photo">
+{% else %}
+<div class="rec-thumb jersey-thumb" style="height:100%;">{% include "partials/jersey.html" with club=product.club %}</div>
+{% endif %}

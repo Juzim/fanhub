@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Корзина{% endblock %}
+{% block content %}
+<h1 style="font-family:var(--disp);font-size:20px;margin-bottom:16px;">Корзина</h1>
+
+{% if cart|length == 0 %}
+<div class="card">
+  <p class="muted">Корзина пуста. <a href="{% url 'merch:list' %}" style="color:var(--blue);">Перейти в магазин →</a></p>
+</div>
+{% else %}
+<div class="card" style="margin-bottom:16px;">
+  {% for item in cart %}
+  <div class="cart-row">
+    <div class="cart-row-photo">{% include "partials/product_photo.html" with product=item.product %}</div>
+    <div class="cart-row-info">
+      <div style="font-weight:600;font-size:13px;">{{ item.product.name }}</div>
+      <div class="muted-sm" style="margin-top:3px;">Размер {{ item.size }} · {{ item.quantity }} шт.</div>
+    </div>
+    <div style="font-family:var(--mono);font-weight:700;">{{ item.total_price }} ₸</div>
+    <form method="post" action="{% url 'merch:cart_remove' item.key %}">
+      {% csrf_token %}
+      <button type="submit" class="icon-btn" aria-label="Удалить" title="Удалить">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/></svg>
+      </button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+  <div>
+    <div class="muted-sm">Итого</div>
+    <div style="font-family:var(--disp);font-size:22px;font-weight:700;">{{ total }} ₸</div>
+  </div>
+  <a href="{% url 'merch:checkout' %}" class="cta">Оформить заказ →</a>
+</div>
+{% endif %}
+{% endblock %}

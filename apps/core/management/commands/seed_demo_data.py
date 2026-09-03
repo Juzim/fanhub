@@ -19,6 +19,7 @@ import random
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
 
@@ -286,12 +287,32 @@ class Command(BaseCommand):
             )
         self.stdout.write(self.style.SUCCESS(f"Видео: {len(REAL_VIDEOS)} реальных"))
 
-        # Мерч и фан-чаты — по-прежнему демо-заглушки (реальных цен на сайтах
-        # клубов найти не удалось; фан-чаты — внутренняя функция платформы)
-        for club in clubs.values():
-            Product.objects.get_or_create(
+        # Мерч — для 10 клубов подключены реальные фото джерси (static/img/merch/),
+        # для остальных 6 — авторская SVG-заглушка (partials/jersey.html).
+        # Цена условная (реальных прайсов на сайтах клубов найти не удалось).
+        JERSEY_PHOTOS = {
+            "ФК Актобе": "img/merch/aktobe.jpg",
+            "Астана": "img/merch/astana.jpg",
+            "Атырау": "img/merch/atyrau.jpg",
+            "Елимай": "img/merch/elimai.jpg",
+            "Кайрат": "img/merch/kairat.jpg",
+            "Кайсар": "img/merch/kaysar.jpg",
+            "Окжетпес": "img/merch/okzhetpes.jpg",
+            "Ордабасы": "img/merch/ordabasy.jpg",
+            "Тобыл": "img/merch/tobyl.jpg",
+            "Ұлытау": "img/merch/ulytau.jpg",
+        }
+        for club_name, club in clubs.items():
+            Product.objects.update_or_create(
                 club=club, name=f"Домашняя футболка {club.name} 2026",
-                defaults=dict(price=12900),
+                defaults=dict(
+                    price=12900,
+                    description=(
+                        f"Домашняя игровая футболка «{club.name}» сезона 2026. "
+                        f"Официальный крой клуба, дышащая ткань."
+                    ),
+                    image_static=JERSEY_PHOTOS.get(club_name, ""),
+                ),
             )
             ChatRoom.objects.get_or_create(title=f"Фанаты {club.name}", club=club)
 
@@ -316,6 +337,38 @@ class Command(BaseCommand):
                 log_interaction(user, "news_read", article=article, club=aktobe)
             for video in Video.objects.filter(club=aktobe)[:2]:
                 log_interaction(user, "video_watch", video=video, club=aktobe)
+
+            # Новость/видео/матч Актобе были созданы ДО пользователя, поэтому
+            # сигналы (apps/core/signals.py) их не поймали — досоздаём эти
+            # уведомления вручную, чтобы колокольчик не был пустым сразу
+            # после seed_demo_data (для остальных пользователей, заведённых
+            # позже, всё будет прилетать через сигналы автоматически).
+            from apps.core.models import Notification
+            first_article = Article.objects.filter(club=aktobe).order_by("-published_at").first()
+            if first_article:
+                Notification.objects.get_or_create(
+                    user=user, notif_type="new_content", title=f"Новая новость: {aktobe.name}",
+                    defaults=dict(body=first_article.title, link=f"/news/{first_article.pk}/"),
+                )
+            aktobe_match = Match.objects.filter(
+                status="finished"
+            ).filter(Q(home_club=aktobe) | Q(away_club=aktobe)).order_by("-kickoff_at").first()
+            if aktobe_match:
+                Notification.objects.get_or_create(
+                    user=user, notif_type="match_result",
+                    title=f"{aktobe_match.home_club.short_name} {aktobe_match.score_display} {aktobe_match.away_club.short_name}",
+                    defaults=dict(
+                        body=f"Матч {aktobe_match.kickoff_at:%d.%m.%Y} завершён.",
+                        link="/matches/",
+                    ),
+                )
+            Notification.objects.get_or_create(
+                user=user, notif_type="level_up", title="Добро пожаловать в FAN-HUB!",
+                defaults=dict(
+                    body="Читайте новости и смотрите видео, чтобы повышать уровень болельщика.",
+                    link="/accounts/profile/",
+                ),
+            )
 
         user.refresh_from_db()
         self.stdout.write(self.style.SUCCESS(

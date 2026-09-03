@@ -1,22 +1,34 @@
+{% load i18n %}
+{% trans "Клуб не выбран" as club_placeholder %}
 <div class="topbar">
   <form class="search" method="get" action="{% url 'core:search' %}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input type="text" name="q" placeholder="Поиск матчей, новостей, игроков..." value="{{ request.GET.q }}"
+    <input type="text" name="q" placeholder="{% trans 'Поиск матчей, новостей, игроков...' %}" value="{{ request.GET.q }}"
            style="background:transparent;border:none;outline:none;color:var(--text-1);font-size:13px;flex:1;font-family:var(--body);">
   </form>
   <div class="top-actions">
-    <button class="icon-btn" type="button" aria-label="Уведомления">
+    <form method="post" action="{% url 'set_language' %}" class="lang-switch">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button type="submit" name="language" value="ru" class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</button>
+      <button type="submit" name="language" value="kk" class="lang-btn {% if LANGUAGE_CODE == 'kk' %}active{% endif %}">ҚАЗ</button>
+    </form>
+    <a href="{% url 'core:notifications' %}" class="icon-btn" aria-label="{% trans 'Уведомления' %}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
-      <span class="icon-btn-dot"></span>
-    </button>
-    <button class="icon-btn" type="button" aria-label="Сообщения">
+      {% if notifications_unread_count > 0 %}<span class="icon-btn-badge">{{ notifications_unread_count }}</span>{% endif %}
+    </a>
+    <button class="icon-btn" type="button" aria-label="{% trans 'Сообщения' %}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
     </button>
+    <a href="{% url 'merch:cart' %}" class="icon-btn" aria-label="{% trans 'Корзина' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      {% if cart_items_count > 0 %}<span class="icon-btn-badge">{{ cart_items_count }}</span>{% endif %}
+    </a>
     <a href="{% url 'accounts:profile' %}" class="userchip">
       <div class="av"></div>
       <div>
         <div class="u-name">{{ user.username }}</div>
-        <div class="u-sub">{{ user.favorite_club.name|default:"Клуб не выбран" }}</div>
+        <div class="u-sub">{{ user.favorite_club.name|default:club_placeholder }}</div>
       </div>
     </a>
   </div>

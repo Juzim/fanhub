@@ -1,0 +1,35 @@
+{% load i18n %}
+{% extends "base.html" %}
+{% block title %}{% trans "Уведомления" %}{% endblock %}
+{% block content %}
+<h1 style="font-family:var(--disp);font-size:20px;margin-bottom:16px;">{% trans "Уведомления" %}</h1>
+
+{% if notifications %}
+<div class="card">
+  {% for n in notifications %}
+  <a href="{{ n.link|default:'#' }}" class="notif-row">
+    <div class="notif-icon notif-icon--{{ n.notif_type }}">
+      {% if n.notif_type == "match_result" %}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+      {% elif n.notif_type == "level_up" %}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+      {% elif n.notif_type == "order" %}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6-6 6 6M6 9v11a1 1 0 001 1h10a1 1 0 001-1V9"/></svg>
+      {% else %}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+      {% endif %}
+    </div>
+    <div class="notif-body">
+      <div class="notif-title">{{ n.title }}</div>
+      {% if n.body %}<div class="notif-text">{{ n.body }}</div>{% endif %}
+      <div class="muted-sm" style="margin-top:4px;">{{ n.created_at|timesince }} {% trans "назад" %}</div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card">
+  <p class="muted">{% trans "Пока уведомлений нет. Читайте новости, смотрите видео — здесь появятся обновления по вашему клубу." %}</p>
+</div>
+{% endif %}
+{% endblock %}

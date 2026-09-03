@@ -6,10 +6,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # libpq-dev + gcc нужны для psycopg2 и scikit-surprise (собирает C-расширения)
+# gettext нужен для compilemessages — компиляции переводов (RU/KZ)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     postgresql-client \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

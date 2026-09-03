@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("i18n/", include("django.conf.urls.i18n")),  # /i18n/setlang/ — переключение языка
     path("", include("apps.core.urls")),
     path("accounts/", include("apps.accounts.urls")),
     path("news/", include("apps.news.urls")),

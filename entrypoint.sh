@@ -31,6 +31,9 @@ if [ "$DJANGO_SUPERUSER_USERNAME" ] && [ "$DJANGO_SUPERUSER_PASSWORD" ] && [ "$D
   python manage.py createsuperuser --noinput || true
 fi
 
+echo "🌐 Компилируем переводы (RU/KZ)..."
+python manage.py compilemessages
+
 python manage.py collectstatic --noinput
 
 # PORT задаётся хостингом динамически (например, Render) — 8000 остаётся

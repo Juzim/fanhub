@@ -65,9 +65,18 @@ class User(AbstractUser):
     def add_xp(self, amount):
         if amount <= 0:
             return
+        old_level = self.level
         self.xp = models.F("xp") + amount
         self.save(update_fields=["xp"])
         self.refresh_from_db(fields=["xp"])
+        if self.level > old_level:
+            from apps.core.models import Notification
+            Notification.objects.create(
+                user=self, notif_type="level_up",
+                title=f"Новый уровень! LVL {self.level}",
+                body=f"Вы достигли {self.level} уровня болельщика — {self.display_title}.",
+                link="/accounts/profile/",
+            )
 
     def change_favorite_club(self, club):
         """Смена любимого клуба — ключевой сценарий демо (Шаг 8-9 ТЗ)."""

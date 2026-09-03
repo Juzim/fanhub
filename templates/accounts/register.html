@@ -1,20 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Регистрация{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Регистрация" %}{% endblock %}
 {% block guest_content %}
 <div class="auth-shell">
+  <form method="post" action="{% url 'set_language' %}" class="lang-switch" style="position:absolute;top:20px;right:20px;">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <button type="submit" name="language" value="ru" class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</button>
+    <button type="submit" name="language" value="kk" class="lang-btn {% if LANGUAGE_CODE == 'kk' %}active{% endif %}">ҚАЗ</button>
+  </form>
   <div class="formcard">
     <div class="mark"></div>
-    <h3 class="title-sm">Создать аккаунт</h3>
-    <p class="muted" style="margin-bottom:18px;">Выберите любимый клуб — дашборд подстроится под него</p>
+    <h3 class="title-sm">{% trans "Создать аккаунт" %}</h3>
+    <p class="muted" style="margin-bottom:18px;">{% trans "Выберите любимый клуб — дашборд подстроится под него" %}</p>
     <form method="post">
       {% csrf_token %}
       {% for field in form %}
         {{ field.errors }}
         {{ field }}
       {% endfor %}
-      <button type="submit" class="cta">Зарегистрироваться</button>
+      <button type="submit" class="cta">{% trans "Зарегистрироваться" %}</button>
     </form>
-    <a href="{% url 'accounts:login' %}" class="cta outline" style="margin-top:10px;display:block;">Уже есть аккаунт? Войти</a>
+    <a href="{% url 'accounts:login' %}" class="cta outline" style="margin-top:10px;display:block;">{% trans "Уже есть аккаунт? Войти" %}</a>
   </div>
 </div>
 {% endblock %}

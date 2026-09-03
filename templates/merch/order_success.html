@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Заказ оформлен{% endblock %}
+{% block content %}
+<div class="card" style="max-width:480px;text-align:center;padding:32px 24px;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" style="width:44px;height:44px;margin:0 auto 14px;">
+    <circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/>
+  </svg>
+  <h1 style="font-family:var(--disp);font-size:20px;margin-bottom:8px;">Заказ №{{ order.pk }} принят</h1>
+  <p class="muted" style="margin-bottom:20px;">
+    Менеджер свяжется с вами по номеру {{ order.phone }} для подтверждения. Оплата — при получении.
+  </p>
+  <div class="card" style="background:var(--bg-elev-2);text-align:left;margin-bottom:20px;">
+    {% for item in order.items.all %}
+    <div class="cart-row" style="padding:8px 0;">
+      <div class="cart-row-info" style="flex:1;">
+        <div style="font-size:12.5px;font-weight:600;">{{ item.product_name }}</div>
+        <div class="muted-sm">Размер {{ item.size }} · {{ item.quantity }} шт.</div>
+      </div>
+      <div style="font-family:var(--mono);">{{ item.total_price }} ₸</div>
+    </div>
+    {% endfor %}
+    <div style="display:flex;justify-content:space-between;padding-top:10px;margin-top:6px;border-top:1px solid var(--border-soft);font-weight:700;">
+      <span>Итого</span><span style="font-family:var(--mono);">{{ order.total_price }} ₸</span>
+    </div>
+  </div>
+  <a href="{% url 'merch:list' %}" class="cta outline" style="display:block;">Продолжить покупки</a>
+</div>
+{% endblock %}
